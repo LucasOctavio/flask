@@ -4,9 +4,9 @@ services:
     container_name: db
     restart: always
     environment:
-      POSTGRES_USER: psqluser
-      POSTGRES_PASSWORD: qpssenha
-      POSTGRES_DB: psqldb
+      POSTGRES_USER: ${POSTEGES_USER}
+      POSTGRES_PASSWORD: ${POSTEGES_PASSWORD}
+      POSTGRES_DB: ${POSTEGES_DB}
     ports:
       - "5432:5432"
     volumes:
@@ -17,7 +17,7 @@ services:
       restart: always
       container_name: flasck_python
       ports:
-        - "8080:5000"
+        - "5000:5000"
       env_file:
       - path: .env
         required: false
