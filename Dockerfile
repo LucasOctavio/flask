@@ -1,24 +1,15 @@
-# 1. Use an official, lightweight Python base image
-FROM python:3.12-slim
+FROM python:3.13-slim
 
-# 2. Set environment variables to optimize Python performance inside Docker
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+WORKDIR /back_end
 
-# 3. Set the working directory inside the container
-WORKDIR /app
+ENV PYTHONDONTWRITEBYTECODE=1 \
+	PYTHONUNBUFFERED=1
 
-# 4. Copy only the dependency file first to leverage Docker layer caching
-COPY requirements.txt .
-
-# 5. Install dependencies without saving local cache to keep the image small
+COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 6. Copy the rest of the application source code
 COPY . .
 
-# 7. Expose the port your application listens on (optional, e.g., for web apps)
-EXPOSE 8000
+EXPOSE 5000
 
-# 8. Define the default command to execute your application
-CMD ["python", "app.py",]
+CMD ["uvicorn" ,"app:app", "--host", "0.0.0.0", "--port", "5000"]
